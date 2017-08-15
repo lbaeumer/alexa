@@ -5,6 +5,15 @@
          http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
 
+	<servlet>
+		<servlet-name>DispatcherEndpoint</servlet-name>
+		<servlet-class>de.mobilesol.matebet.ws.DispatcherEndpoint</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DispatcherEndpoint</servlet-name>
+		<url-pattern>/rs/*</url-pattern>
+	</servlet-mapping>
+
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
