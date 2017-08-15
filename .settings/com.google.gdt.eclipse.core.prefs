@@ -1,5 +1,5 @@
 eclipse.preferences.version=1
 jarsExcludedFromWebInfLib=
-lastWarOutDir=/Users/ludgerbaumer/git/alexa/target/alexa-0.0.1-SNAPSHOT
+lastWarOutDir=/Users/ludgerbaumer/workspace/alexa/src/main/webapp
 warSrcDir=src/main/webapp
 warSrcDirIsOutput=false
