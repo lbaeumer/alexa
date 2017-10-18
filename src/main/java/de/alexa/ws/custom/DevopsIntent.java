@@ -1,5 +1,6 @@
 package de.alexa.ws.custom;
 
+import java.util.Map;
 import java.util.Random;
 
 import org.apache.log4j.Logger;
@@ -21,7 +22,8 @@ public class DevopsIntent implements AlexaCustomIntent {
 		log.info("going with " + request.request.intent.name);
 		if ("DeployIntent".equals(request.request.intent.name)) {
 			try {
-				String name = request.request.intent.slots.get("Name")
+				Map<String, Map<String, Object>> slots = request.request.intent.slots; 
+				String name = slots.get("application")
 						.get("value").toString();
 
 				String ret = "Sorry " + name + ", ich kenne dich nicht";
@@ -34,7 +36,8 @@ public class DevopsIntent implements AlexaCustomIntent {
 
 				json = new AlexaCustomResponse(ret);
 
-			} catch (NullPointerException e) {
+			} catch (Exception e) {
+				log.fatal("failed", e);
 				json = new AlexaCustomResponse("Ich bin doof");
 			}
 
