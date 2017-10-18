@@ -28,24 +28,27 @@ public class DevopsIntent implements AlexaCustomIntent {
 		log.info("going with " + request.request.intent.name);
 		if ("DeployIntent".equals(request.request.intent.name)) {
 			try {
-				String url = null;
 				Map<String, Map<String, Object>> slots = request.request.intent.slots;
 				String name = slots.get("application").get("value").toString();
 
-				String ret = "Sorry " + name + ", ich kenne dich nicht";
+				String ret;
 				if (name.equalsIgnoreCase("cobam")
-						|| name.equalsIgnoreCase("cobam")) {
+						|| name.equalsIgnoreCase("test")) {
 					ret = "I'm happy to deploy application " + name
 							+ " for you.";
-
-					url = "http://webhook:xyz@capture.mobilesol.de:8080/jenkins/job/"
-							+ name + "/buildWithParameters?token=1234567890";
-
-					startBuild(
-							new URL("http://webhook:xyz@capture.mobilesol.de:8080/jenkins/job/"
-									+ name + "/buildWithParameters"),
-							"token=1234567890");
+				} else {
+					ret = "Sorry " + name + ", I don't know appliction " + name
+							+ ". Let me build test";
+					name = "test";
 				}
+
+				String url = "http://webhook:xyz@capture.mobilesol.de:8080/jenkins/job/"
+						+ name + "/buildWithParameters?token=1234567890";
+
+				startBuild(
+						new URL("http://webhook:xyz@capture.mobilesol.de:8080/jenkins/job/"
+								+ name + "/buildWithParameters"),
+						"token=1234567890");
 
 				json = new AlexaCustomResponse(ret);
 
