@@ -2,16 +2,23 @@ package de.alexa.ws.custom;
 
 import java.util.Random;
 
+import org.apache.log4j.Logger;
+
 import de.alexa.ws.AlexaCustomIntent;
 import de.alexa.ws.AlexaCustomRequest;
 import de.alexa.ws.AlexaCustomResponse;
+import de.alexa.ws.DispatcherEndpoint;
 
 public class DevopsIntent implements AlexaCustomIntent {
+
+	private static final Logger log = Logger
+			.getLogger(DevopsIntent.class.getName());
 
 	@Override
 	public AlexaCustomResponse handleIntent(AlexaCustomRequest request) {
 		AlexaCustomResponse json = null;
 
+		log.info("going with " + request.request.intent.name);
 		if ("DeployIntent".equals(request.request.intent.name)) {
 			try {
 				String name = request.request.intent.slots.get("Name")
