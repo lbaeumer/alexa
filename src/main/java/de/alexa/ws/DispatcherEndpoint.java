@@ -52,7 +52,7 @@ public class DispatcherEndpoint extends HttpServlet {
 		String uri = req.getRequestURI();
 		Object json = null;
 
-
+		log.info("uri=" + uri);
 		if (uri.matches("^/rs/alexa/devops$")) {
 
 			StringBuffer strb = new StringBuffer();
