@@ -38,15 +38,36 @@ public class DevopsIntent implements AlexaCustomIntent {
 							+ " for you.";
 				} else {
 					ret = "Sorry " + name + ", I don't know appliction " + name
-							+ ". Let me build test";
+							+ ". Let me build test for you.";
 					name = "test";
 				}
 
 				URL url = new URL(
+/*
 						"http://capture.mobilesol.de:8080/jenkins/job/"
 								+ name
 								+ "/buildWithParameters?token=1234567890");
+*/
+					"http://35.198.237.60/jenkins/job/"
+					+ name
+					+ "/buildWithParameters?token=1234567890");
+						
 				startBuild(url, "payload=hallo&repositoryUrl=http://myurl");
+
+				json = new AlexaCustomResponse(ret);
+
+			} catch (Exception e) {
+				log.fatal("failed", e);
+				json = new AlexaCustomResponse("Ich bin doof");
+			}
+
+		} else if ("BuildStatusIntent".equals(request.request.intent.name)) {
+			try {
+				Map<String, Map<String, Object>> slots = request.request.intent.slots;
+				String name = slots.get("application").get("value").toString();
+
+				String ret;
+				ret = "The Build of your application " + name + " is successful.";
 
 				json = new AlexaCustomResponse(ret);
 
@@ -73,8 +94,10 @@ public class DevopsIntent implements AlexaCustomIntent {
 		con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
 		con.setRequestProperty("Content-Type",
 				"application/x-www-form-urlencoded");
+//		String pw = DatatypeConverter
+//				.printBase64Binary("webhook:xyz".getBytes());
 		String pw = DatatypeConverter
-				.printBase64Binary("webhook:xyz".getBytes());
+				.printBase64Binary("admin:hsbc".getBytes());
 		con.setRequestProperty("Authorization", "Basic " + pw);
 
 		// Send post request
