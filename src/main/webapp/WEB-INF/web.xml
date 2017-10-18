@@ -7,7 +7,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 
 	<servlet>
 		<servlet-name>DispatcherEndpoint</servlet-name>
-		<servlet-class>de.lennard.ws.DispatcherEndpoint</servlet-class>
+		<servlet-class>de.alexa.ws.DispatcherEndpoint</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>DispatcherEndpoint</servlet-name>
