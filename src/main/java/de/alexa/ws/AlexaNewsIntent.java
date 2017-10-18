@@ -1,4 +1,4 @@
-package de.lennard.ws;
+package de.alexa.ws;
 
 import java.util.List;
 

@@ -1,10 +1,10 @@
-package de.lennard.ws.custom;
+package de.alexa.ws.custom;
 
 import java.util.Random;
 
-import de.lennard.ws.AlexaCustomIntent;
-import de.lennard.ws.AlexaCustomRequest;
-import de.lennard.ws.AlexaCustomResponse;
+import de.alexa.ws.AlexaCustomIntent;
+import de.alexa.ws.AlexaCustomRequest;
+import de.alexa.ws.AlexaCustomResponse;
 
 public class PupsieIntent implements AlexaCustomIntent {
 

@@ -1,4 +1,4 @@
-package de.lennard.ws.news;
+package de.alexa.ws.news;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -6,8 +6,8 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
-import de.lennard.ws.AlexaNewsIntent;
-import de.lennard.ws.AlexaNewsResponse;
+import de.alexa.ws.AlexaNewsIntent;
+import de.alexa.ws.AlexaNewsResponse;
 
 public class NewsIntent implements AlexaNewsIntent {
 

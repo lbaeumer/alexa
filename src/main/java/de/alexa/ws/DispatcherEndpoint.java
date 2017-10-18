@@ -1,4 +1,4 @@
-package de.lennard.ws;
+package de.alexa.ws;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,8 +13,9 @@ import org.apache.log4j.Logger;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import de.lennard.ws.custom.PupsieIntent;
-import de.lennard.ws.news.NewsIntent;
+import de.alexa.ws.custom.DevopsIntent;
+import de.alexa.ws.custom.PupsieIntent;
+import de.alexa.ws.news.NewsIntent;
 
 public class DispatcherEndpoint extends HttpServlet {
 
@@ -52,7 +53,7 @@ public class DispatcherEndpoint extends HttpServlet {
 		Object json = null;
 
 
-		if (uri.matches("^/rs/alexa/[a-z]+$")) {
+		if (uri.matches("^/rs/alexa/devops$")) {
 
 			StringBuffer strb = new StringBuffer();
 			BufferedReader reader = new BufferedReader(req.getReader());
@@ -69,6 +70,9 @@ public class DispatcherEndpoint extends HttpServlet {
 
 			if (uri.matches("^/rs/alexa/pupsie$")) {
 				intent = new PupsieIntent();
+			}
+			if (uri.matches("^/rs/alexa/devops$")) {
+				intent = new DevopsIntent();
 			}
 
 			if ("LaunchRequest".equals(request.request.type)) {
