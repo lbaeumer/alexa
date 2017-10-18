@@ -48,7 +48,7 @@ public class DevopsIntent implements AlexaCustomIntent {
 								+ name
 								+ "/buildWithParameters?token=1234567890");
 */
-					"http://35.198.237.60/jenkins/job/"
+					"http://35.198.237.60/job/"
 					+ name
 					+ "/buildWithParameters?token=1234567890");
 						
