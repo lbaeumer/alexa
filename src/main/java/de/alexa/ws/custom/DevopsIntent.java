@@ -33,6 +33,7 @@ public class DevopsIntent implements AlexaCustomIntent {
 
 				String ret;
 				if (name.equalsIgnoreCase("cobam")
+						|| name.equalsIgnoreCase("hackit")
 						|| name.equalsIgnoreCase("test")) {
 					ret = "I'm happy to deploy application " + name
 							+ " for you.";
