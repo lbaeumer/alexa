@@ -42,13 +42,11 @@ public class DevopsIntent implements AlexaCustomIntent {
 					name = "test";
 				}
 
-				String url = "http://webhook:xyz@capture.mobilesol.de:8080/jenkins/job/"
-						+ name + "/buildWithParameters?token=1234567890";
-
 				startBuild(
 						new URL("http://webhook:xyz@capture.mobilesol.de:8080/jenkins/job/"
-								+ name + "/buildWithParameters"),
-						"token=1234567890");
+								+ name
+								+ "/buildWithParameters?token=1234567890"),
+						"payload=hallo&repositoryUrl=http://myurl");
 
 				json = new AlexaCustomResponse(ret);
 
