@@ -68,7 +68,11 @@ public class DevopsIntent implements AlexaCustomIntent {
 				String name = slots.get("application").get("value").toString();
 
 				String ret;
-				ret = "The Build of your application " + name + " is successful.";
+				if (!"hackit".equals(name)) {
+					ret = "The Build of your application " + name + " is successful.";
+				} else {
+					ret = "The Build of your application hackit failed.";
+				}
 
 				json = new AlexaCustomResponse(ret);
 
