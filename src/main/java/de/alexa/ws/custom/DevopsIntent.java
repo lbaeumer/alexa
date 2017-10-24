@@ -1,17 +1,12 @@
 package de.alexa.ws.custom;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.Map;
-
-import javax.xml.bind.DatatypeConverter;
 
 import org.apache.log4j.Logger;
 
+import de.alexa.dto.AllJobsDTO;
+import de.alexa.dto.BuildDTO;
+import de.alexa.dto.JobDTO;
 import de.alexa.ws.AlexaCustomIntent;
 import de.alexa.ws.AlexaCustomRequest;
 import de.alexa.ws.AlexaCustomResponse;
@@ -21,45 +16,36 @@ public class DevopsIntent implements AlexaCustomIntent {
 	private static final Logger log = Logger
 			.getLogger(DevopsIntent.class.getName());
 
+	private JenkinsUtil util = new JenkinsUtil();
+
 	@Override
 	public AlexaCustomResponse handleIntent(AlexaCustomRequest request) {
 		AlexaCustomResponse json = null;
 
 		log.info("going with " + request.request.intent.name);
-		if ("DeployIntent".equals(request.request.intent.name)) {
+		if ("StartBuildIntent".equals(request.request.intent.name)) {
 			try {
 				Map<String, Map<String, Object>> slots = request.request.intent.slots;
 				String name = slots.get("application").get("value").toString();
 
-				String ret;
-				if (name.equalsIgnoreCase("cobam")
-						|| name.equalsIgnoreCase("hackit")
-						|| name.equalsIgnoreCase("test")) {
-					ret = "I'm happy to deploy application " + name
-							+ " for you.";
-				} else {
-					ret = "Sorry " + name + ", I don't know appliction " + name
-							+ ". Let me build test for you.";
-					name = "test";
-				}
+				int rc = util.startBuild(name,
+						"payload=hallo&repositoryUrl=http://myurl");
 
-				URL url = new URL(
-/*
-						"http://capture.mobilesol.de:8080/jenkins/job/"
-								+ name
-								+ "/buildWithParameters?token=1234567890");
-*/
-						"http://35.198.237.60:8080/job/"
-						+ name
-						+ "/build");
-						
-				startBuild(url, "payload=hallo&repositoryUrl=http://myurl");
+				String ret;
+				if (rc == 201) {
+					ret = "I'm happy to deploy application " + name
+							+ " for you. ";
+				} else if (rc == 404) {
+					ret = "Sorry, I don't know appliction " + name + ".";
+				} else {
+					ret = "Sorry, something is wrong here.";
+				}
 
 				json = new AlexaCustomResponse(ret);
 
 			} catch (Exception e) {
 				log.fatal("failed", e);
-				json = new AlexaCustomResponse("Ich bin doof");
+				json = new AlexaCustomResponse("Hups, there is a problem with starting the application.");
 			}
 
 		} else if ("BuildStatusIntent".equals(request.request.intent.name)) {
@@ -67,66 +53,55 @@ public class DevopsIntent implements AlexaCustomIntent {
 				Map<String, Map<String, Object>> slots = request.request.intent.slots;
 				String name = slots.get("application").get("value").toString();
 
+				BuildDTO b = util.getLatestBuild(name);
 				String ret;
-				if (!"hackit".equals(name)) {
-					ret = "The Build of your application " + name + " is successful.";
+				if (b != null) {
+					ret = "The Build of your application " + name
+							+ " is successful.";
 				} else {
-					ret = "The Build of your application hackit failed.";
+					ret = "Sorry, the application " + name + " does not exist.";
 				}
 
 				json = new AlexaCustomResponse(ret);
 
 			} catch (Exception e) {
 				log.fatal("failed", e);
-				json = new AlexaCustomResponse("Ich bin doof");
+				json = new AlexaCustomResponse("Hups, there is a problem with the build status.");
 			}
 
+		} else if ("AllJobsIntent".equals(request.request.intent.name)) {
+			try {
+
+				AllJobsDTO b = util.getAllJobs();
+				int success = 0;
+				int failed = 0;
+				int notbuild = 0;
+				for (JobDTO j : b.jobs) {
+					if ("blue".equals(j.color)) {
+						success++;
+					} else if ("notbuilt".equals(j.color)) {
+						notbuild++;
+					} else if ("red".equals(j.color)) {
+						failed++;
+					}
+				}
+				String ret;
+
+				ret = "I found " + (failed + success + notbuild) + " jobs. "
+						+ success + " jobs are successful. " + failed
+						+ " jobs failed. " + (notbuild > 0
+								? notbuild + " jobs have not been build."
+								: "");
+
+				json = new AlexaCustomResponse(ret);
+
+			} catch (Exception e) {
+				log.fatal("failed", e);
+				json = new AlexaCustomResponse("Hups, there is a problem getting the jobs.");
+			}
 		}
 
 		return json;
-	}
-
-	void startBuild(URL obj, String urlParameters) throws IOException {
-
-		log.info("start " + obj);
-		log.info("params " + urlParameters);
-
-		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-
-		// add request header
-		con.setRequestMethod("POST");
-		con.setRequestProperty("User-Agent", "FancyDevOps");
-		con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
-		con.setRequestProperty("Content-Type",
-				"application/x-www-form-urlencoded");
-//		String pw = DatatypeConverter
-//				.printBase64Binary("webhook:xyz".getBytes());
-		String pw = DatatypeConverter
-				.printBase64Binary("admin:hsbc".getBytes());
-		con.setRequestProperty("Authorization", "Basic " + pw);
-
-		// Send post request
-		con.setDoOutput(true);
-		DataOutputStream wr = new DataOutputStream(con.getOutputStream());
-		wr.writeBytes(urlParameters);
-		wr.flush();
-		wr.close();
-
-		int responseCode = con.getResponseCode();
-		log.info("Response Code : " + responseCode);
-
-		BufferedReader in = new BufferedReader(
-				new InputStreamReader(con.getInputStream()));
-		String inputLine;
-		StringBuffer response = new StringBuffer();
-
-		while ((inputLine = in.readLine()) != null) {
-			response.append(inputLine);
-		}
-		in.close();
-
-		// print result
-		log.info(response.toString());
 	}
 
 	@Override
@@ -134,5 +109,4 @@ public class DevopsIntent implements AlexaCustomIntent {
 		return new AlexaCustomResponse(
 				"I'm happy to serve your DevOps requests.");
 	}
-
 }
