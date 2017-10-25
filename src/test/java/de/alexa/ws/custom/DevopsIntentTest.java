@@ -7,7 +7,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import de.alexa.dto.AllJobsDTO;
-import de.alexa.dto.BuildDTO;
+import de.alexa.dto.AllBuildsDTO;
 
 public class DevopsIntentTest {
 
@@ -44,25 +44,25 @@ public class DevopsIntentTest {
 	public void getLatestBuildSUCCESS() throws MalformedURLException, IOException {
 		String name = "test";
 
-		BuildDTO b = util.getLatestBuild(name);
-		Assert.assertNotNull(b.id);
-		Assert.assertEquals(b.result, "SUCCESS");
+		AllBuildsDTO b = util.getAllBuilds(name);
+		Assert.assertNotNull(b.name);
+		Assert.assertEquals(b.lastBuild.number, b.lastSuccessfulBuild.number);
 	}
 
 	@Test
 	public void getLatestBuildFailed() throws MalformedURLException, IOException {
 		String name = "test2";
 
-		BuildDTO b = util.getLatestBuild(name);
-		Assert.assertNotNull(b.id);
-		Assert.assertEquals(b.result, "FAILURE");
+		AllBuildsDTO b = util.getAllBuilds(name);
+		Assert.assertNotNull(b.name);
+		Assert.assertEquals(b.lastBuild.number, b.lastFailedBuild.number);
 	}
 
 	@Test
 	public void getLatestBuildNotFound() throws MalformedURLException, IOException {
 		String name = "unknown_not_found";
 
-		BuildDTO b = util.getLatestBuild(name);
+		AllBuildsDTO b = util.getAllBuilds(name);
 		Assert.assertNull(b);
 	}
 

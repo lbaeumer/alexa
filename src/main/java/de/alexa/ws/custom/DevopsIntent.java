@@ -4,9 +4,9 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
+import de.alexa.dto.AllBuildsDTO;
 import de.alexa.dto.AllJobsDTO;
-import de.alexa.dto.BuildDTO;
-import de.alexa.dto.JobDTO;
+import de.alexa.dto.AllJobsDTO.JobDTO;
 import de.alexa.ws.AlexaCustomIntent;
 import de.alexa.ws.AlexaCustomRequest;
 import de.alexa.ws.AlexaCustomResponse;
@@ -45,7 +45,8 @@ public class DevopsIntent implements AlexaCustomIntent {
 
 			} catch (Exception e) {
 				log.fatal("failed", e);
-				json = new AlexaCustomResponse("Hups, there is a problem with starting the application.");
+				json = new AlexaCustomResponse(
+						"Hups, there is a problem with starting the application.");
 			}
 
 		} else if ("BuildStatusIntent".equals(request.request.intent.name)) {
@@ -53,11 +54,27 @@ public class DevopsIntent implements AlexaCustomIntent {
 				Map<String, Map<String, Object>> slots = request.request.intent.slots;
 				String name = slots.get("application").get("value").toString();
 
-				BuildDTO b = util.getLatestBuild(name);
+				AllBuildsDTO b = util.getAllBuilds(name);
 				String ret;
 				if (b != null) {
-					ret = "The Build of your application " + name
-							+ " is successful.";
+					String status;
+					if (b.lastSuccessfulBuild != null
+							&& b.lastBuild.number == b.lastSuccessfulBuild.number) {
+						status = "is successful";
+					} else if (b.lastFailedBuild != null
+							&& b.lastBuild.number == b.lastFailedBuild.number) {
+						status = "failed";
+					} else if (b.lastUnstableBuild != null
+							&& b.lastBuild.number == b.lastUnstableBuild.number) {
+						status = "is unstable";
+					} else {
+						status = "is unknown";
+					}
+					ret = "The latest build with number " + b.lastBuild.number
+							+ " of your application " + name + " " + status
+							+ ". "
+							+ (b.healthReport != null && b.healthReport.size() > 0
+							? b.healthReport.get(0).description : "");
 				} else {
 					ret = "Sorry, the application " + name + " does not exist.";
 				}
@@ -66,7 +83,8 @@ public class DevopsIntent implements AlexaCustomIntent {
 
 			} catch (Exception e) {
 				log.fatal("failed", e);
-				json = new AlexaCustomResponse("Hups, there is a problem with the build status.");
+				json = new AlexaCustomResponse(
+						"Hups, there is a problem with the build status.");
 			}
 
 		} else if ("AllJobsIntent".equals(request.request.intent.name)) {
@@ -76,6 +94,8 @@ public class DevopsIntent implements AlexaCustomIntent {
 				int success = 0;
 				int failed = 0;
 				int notbuild = 0;
+				int unstable = 0;
+				StringBuffer strb = new StringBuffer();
 				for (JobDTO j : b.jobs) {
 					if ("blue".equals(j.color)) {
 						success++;
@@ -83,21 +103,30 @@ public class DevopsIntent implements AlexaCustomIntent {
 						notbuild++;
 					} else if ("red".equals(j.color)) {
 						failed++;
+						if (strb.length() > 0) {
+							strb.append(", ");
+						}
+						strb.append(j.name);
+					} else if ("yellow".equals(j.color)) {
+						unstable++;
 					}
 				}
 				String ret;
 
-				ret = "I found " + (failed + success + notbuild) + " jobs. "
-						+ success + " jobs are successful. " + failed
-						+ " jobs failed. " + (notbuild > 0
+				ret = "I found " + (failed + success + notbuild + unstable)
+						+ " jobs. " + success + " jobs are successful. "
+						+ failed + " jobs failed. "
+						+ (notbuild > 0
 								? notbuild + " jobs have not been build."
-								: "");
+								: "")
+						+ ". The following builds failed: " + strb + ".";
 
 				json = new AlexaCustomResponse(ret);
 
 			} catch (Exception e) {
 				log.fatal("failed", e);
-				json = new AlexaCustomResponse("Hups, there is a problem getting the jobs.");
+				json = new AlexaCustomResponse(
+						"Hups, there is a problem getting the jobs.");
 			}
 		}
 

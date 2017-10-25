@@ -14,7 +14,7 @@ import org.apache.log4j.Logger;
 import com.google.gson.Gson;
 
 import de.alexa.dto.AllJobsDTO;
-import de.alexa.dto.BuildDTO;
+import de.alexa.dto.AllBuildsDTO;
 
 public class JenkinsUtil {
 
@@ -82,11 +82,11 @@ public class JenkinsUtil {
 		return responseCode;
 	}
 
-	public BuildDTO getLatestBuild(String name) throws IOException {
+	public AllBuildsDTO getAllBuilds(String name) throws IOException {
 
-		URL obj = new URL(HOSTNAME + "/job/" + name + "/lastBuild/api/json");
+		URL obj = new URL(HOSTNAME + "/job/" + name + "/api/json");
 
-		log.info("get latest build " + obj);
+		log.info("get all builds " + obj);
 
 		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
@@ -119,7 +119,7 @@ public class JenkinsUtil {
 			log.info(response.toString());
 
 			Gson gson = new Gson();
-			BuildDTO b = gson.fromJson(response.toString(), BuildDTO.class);
+			AllBuildsDTO b = gson.fromJson(response.toString(), AllBuildsDTO.class);
 
 			log.info("b=" + b);
 
