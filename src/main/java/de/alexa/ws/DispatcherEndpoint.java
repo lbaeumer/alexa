@@ -44,7 +44,6 @@ public class DispatcherEndpoint extends HttpServlet {
 		resp.getWriter().write(gson.toJson(json));
 	}
 
-
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {

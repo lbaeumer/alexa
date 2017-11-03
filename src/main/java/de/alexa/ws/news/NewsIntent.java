@@ -23,7 +23,8 @@ public class NewsIntent implements AlexaNewsIntent {
 		res.mainText = "Der Lennard ist ein Pupsie, ...";
 		res.redirectionUrl = "https://www.hsbc-zertifikate.de/pdfs/archive/dailytrading/20170413_HSBC_TuB_DailyTrading.pdf";
 		res.titleText = "Lennrad pupst den gazen Tag";
-		res.uid = res.titleText.hashCode() + ":" + System.currentTimeMillis()%1000;
+		res.uid = res.titleText.hashCode() + ":"
+				+ System.currentTimeMillis() % 1000;
 		res.updateDate = new Date();
 		l.add(res);
 

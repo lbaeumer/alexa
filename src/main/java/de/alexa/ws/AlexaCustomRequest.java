@@ -5,16 +5,23 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class AlexaCustomRequest {
-	public FuRequest1 request;
+	public String version;
 
-	public static class FuRequest1 {
+	public RequestSession session;
+	public Request request;
+
+	public static class Request {
 		public String requestId, locale, type;
 		public Date timestamp;
-		public FuIntent intent;
+		public RequestIntent intent;
 	}
 
-	public static class FuIntent {
+	public static class RequestIntent {
 		public String name;
 		public Map<String, Map<String, Object>> slots = new HashMap<String, Map<String, Object>>();
+	}
+
+	public static class RequestSession {
+		public String sessionId;
 	}
 }

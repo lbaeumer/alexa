@@ -15,7 +15,7 @@ public class AllBuildsDTO {
 		public int number;
 		public String url;
 	}
-	
+
 	public static class HealthReportDTO {
 		public String description;
 		public int score;

@@ -1,4 +1,4 @@
-package de.alexa.ws.custom;
+package de.alexa.ws.custom.util;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -13,8 +13,8 @@ import org.apache.log4j.Logger;
 
 import com.google.gson.Gson;
 
-import de.alexa.dto.AllJobsDTO;
 import de.alexa.dto.AllBuildsDTO;
+import de.alexa.dto.AllJobsDTO;
 
 public class JenkinsUtil {
 
@@ -110,7 +110,7 @@ public class JenkinsUtil {
 		try {
 			String inputLine;
 			StringBuffer response = new StringBuffer();
-	
+
 			while ((inputLine = in.readLine()) != null) {
 				response.append(inputLine);
 			}
@@ -119,7 +119,8 @@ public class JenkinsUtil {
 			log.info(response.toString());
 
 			Gson gson = new Gson();
-			AllBuildsDTO b = gson.fromJson(response.toString(), AllBuildsDTO.class);
+			AllBuildsDTO b = gson.fromJson(response.toString(),
+					AllBuildsDTO.class);
 
 			log.info("b=" + b);
 
@@ -157,7 +158,7 @@ public class JenkinsUtil {
 		try {
 			String inputLine;
 			StringBuffer response = new StringBuffer();
-	
+
 			while ((inputLine = in.readLine()) != null) {
 				response.append(inputLine);
 			}

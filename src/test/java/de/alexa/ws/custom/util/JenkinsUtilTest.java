@@ -1,4 +1,4 @@
-package de.alexa.ws.custom;
+package de.alexa.ws.custom.util;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -6,10 +6,10 @@ import java.net.MalformedURLException;
 import org.junit.Assert;
 import org.junit.Test;
 
-import de.alexa.dto.AllJobsDTO;
 import de.alexa.dto.AllBuildsDTO;
+import de.alexa.dto.AllJobsDTO;
 
-public class DevopsIntentTest {
+public class JenkinsUtilTest {
 
 	JenkinsUtil util = new JenkinsUtil();
 
@@ -41,7 +41,8 @@ public class DevopsIntentTest {
 	}
 
 	@Test
-	public void getLatestBuildSUCCESS() throws MalformedURLException, IOException {
+	public void getLatestBuildSuccess()
+			throws MalformedURLException, IOException {
 		String name = "test";
 
 		AllBuildsDTO b = util.getAllBuilds(name);
@@ -50,7 +51,8 @@ public class DevopsIntentTest {
 	}
 
 	@Test
-	public void getLatestBuildFailed() throws MalformedURLException, IOException {
+	public void getLatestBuildFailed()
+			throws MalformedURLException, IOException {
 		String name = "test2";
 
 		AllBuildsDTO b = util.getAllBuilds(name);
@@ -59,7 +61,8 @@ public class DevopsIntentTest {
 	}
 
 	@Test
-	public void getLatestBuildNotFound() throws MalformedURLException, IOException {
+	public void getLatestBuildNotFound()
+			throws MalformedURLException, IOException {
 		String name = "unknown_not_found";
 
 		AllBuildsDTO b = util.getAllBuilds(name);
