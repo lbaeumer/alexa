@@ -8,6 +8,10 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import javax.xml.bind.DatatypeConverter;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
 
 import org.apache.log4j.Logger;
 
@@ -15,6 +19,7 @@ import com.google.gson.Gson;
 
 import de.alexa.dto.AllBuildsDTO;
 import de.alexa.dto.AllJobsDTO;
+import de.alexa.jenkins.dto.Feed;
 
 public class JenkinsUtil {
 
@@ -175,5 +180,52 @@ public class JenkinsUtil {
 		} finally {
 			in.close();
 		}
+	}
+	
+	public Feed getAllJobsFromRSS() throws IOException, JAXBException {
+		URL obj = new URL(HOSTNAME + "/rssAll");
+
+		log.info("get all builds " + obj);
+
+		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+
+		// add request header
+		con.setRequestMethod("GET");
+		con.setRequestProperty("User-Agent", "FancyDevOps");
+		con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
+		String pw = DatatypeConverter.printBase64Binary(CRED.getBytes());
+		// String pw = DatatypeConverter
+		// .printBase64Binary("admin:hsbc".getBytes());
+		con.setRequestProperty("Authorization", "Basic " + pw);
+
+		int responseCode = con.getResponseCode();
+		log.info("Response Code : " + responseCode);
+		if (responseCode >= 400) {
+			return null;
+		}
+
+		BufferedReader in = new BufferedReader(
+				new InputStreamReader(con.getInputStream()));
+		try {
+
+			JAXBContext jaxbContext 
+            = JAXBContext.newInstance
+              ("de.alexa.jenkins.dto");
+
+			Unmarshaller unmarshaller = 
+			        jaxbContext.createUnmarshaller();
+			
+			JAXBElement<Feed> bookingElement 
+            = (JAXBElement<Feed>) unmarshaller.unmarshal(in);
+			Feed booking = bookingElement.getValue();
+        
+        
+			log.info("b=" + booking);
+
+			return booking;
+		} finally {
+			in.close();
+		}
+
 	}
 }
