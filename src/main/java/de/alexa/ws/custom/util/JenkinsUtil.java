@@ -8,18 +8,19 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import javax.xml.bind.DatatypeConverter;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
 
 import org.apache.log4j.Logger;
 
 import com.google.gson.Gson;
+import com.rometools.rome.feed.atom.Feed;
+import com.rometools.rome.feed.synd.SyndFeed;
+import com.rometools.rome.io.FeedException;
+import com.rometools.rome.io.SyndFeedInput;
+import com.rometools.rome.io.XmlReader;
 
 import de.alexa.dto.AllBuildsDTO;
 import de.alexa.dto.AllJobsDTO;
-import de.alexa.jenkins.dto.Feed;
 
 public class JenkinsUtil {
 
@@ -182,7 +183,7 @@ public class JenkinsUtil {
 		}
 	}
 	
-	public Feed getAllJobsFromRSS() throws IOException, JAXBException {
+	public SyndFeed getAllJobsFromRSS() throws IOException, JAXBException, IllegalArgumentException, FeedException {
 		URL obj = new URL(HOSTNAME + "/rssAll");
 
 		log.info("get all builds " + obj);
@@ -208,21 +209,10 @@ public class JenkinsUtil {
 				new InputStreamReader(con.getInputStream()));
 		try {
 
-			JAXBContext jaxbContext 
-            = JAXBContext.newInstance
-              ("de.alexa.jenkins.dto");
-
-			Unmarshaller unmarshaller = 
-			        jaxbContext.createUnmarshaller();
+			SyndFeedInput input = new SyndFeedInput();
+			SyndFeed feed = input.build(in);
 			
-			JAXBElement<Feed> bookingElement 
-            = (JAXBElement<Feed>) unmarshaller.unmarshal(in);
-			Feed booking = bookingElement.getValue();
-        
-        
-			log.info("b=" + booking);
-
-			return booking;
+			return feed;
 		} finally {
 			in.close();
 		}
