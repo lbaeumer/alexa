@@ -14,6 +14,14 @@
 
 package com.google.api.services.samples.calendar.appengine.server;
 
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Logger;
+
+import javax.servlet.http.HttpServletRequest;
+
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.extensions.appengine.datastore.AppEngineDataStoreFactory;
 import com.google.api.client.extensions.appengine.http.UrlFetchTransport;
@@ -25,19 +33,10 @@ import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.Preconditions;
 import com.google.api.client.util.store.DataStoreFactory;
-import com.google.api.services.calendar.Calendar;
+import com.google.api.services.prediction.Prediction;
 //import com.google.api.services.calendar.CalendarScopes;
 //import com.google.api.services.calendar.CalendarScopes;
 import com.google.appengine.api.users.UserServiceFactory;
-
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.logging.Logger;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * Utility class for JDO persistence, OAuth flow helpers, and others.
@@ -112,13 +111,14 @@ class Utils {
 		return flow;
 	}
 
-	static Calendar loadCalendarClient() throws IOException {
+	static Prediction loadPredictionClient() throws IOException {
 		log.info("loadCalendarCLient");
 		String userId = UserServiceFactory.getUserService().getCurrentUser()
 				.getUserId();
-		log.info("loadCalendarCLient" + userId);
+		log.info("loadPredictionClient" + userId);
 		Credential credential = newFlow().loadCredential(userId);
-		return new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential)
+		return new Prediction.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential)
+				.setApplicationName("luitest123")
 				.build();
 	}
 

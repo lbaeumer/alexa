@@ -14,21 +14,18 @@
 
 package com.google.api.services.samples.calendar.appengine.server;
 
-import com.google.api.services.calendar.model.Calendar;
-import com.google.api.services.calendar.model.CalendarList;
-import com.google.api.services.calendar.model.CalendarListEntry;
-import com.google.api.services.samples.calendar.appengine.client.CalendarService;
-import com.google.api.services.samples.calendar.appengine.shared.GwtCalendar;
-import com.google.gwt.user.server.rpc.RemoteServiceServlet;
-
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServlet;
+
+import com.google.api.services.prediction.Prediction;
+import com.google.api.services.prediction.Prediction.Trainedmodels;
+import com.google.api.services.prediction.Prediction.Trainedmodels.Predict;
+import com.google.api.services.prediction.model.Input;
 
 /**
  * Calendar GWT RPC service implementation.
@@ -36,9 +33,7 @@ import javax.servlet.ServletResponse;
  * @author Yaniv Inbar
  */
 @SuppressWarnings("serial")
-public class CalendarGwtRpcSample extends RemoteServiceServlet
-		implements
-			CalendarService {
+public class CalendarGwtRpcSample extends HttpServlet {
 
 	private static final Logger log = Logger
 			.getLogger(CalendarGwtRpcSample.class.getName());
@@ -47,72 +42,47 @@ public class CalendarGwtRpcSample extends RemoteServiceServlet
 	public void service(ServletRequest arg0, ServletResponse arg1)
 			throws ServletException, IOException {
 		log.info("serve calendar");
+
+		Prediction prediction = Utils.loadPredictionClient();
+		log.info("prediction=" + prediction);
+
+		Trainedmodels tm = prediction.trainedmodels();
+		log.info("tm=" + tm);
+
+		Prediction.Trainedmodels.List l;
+		l = tm.list("census");
+		log.info("tm list=" + l);
+		log.info("tm list=" + l.getProject() + ";" + l.getKey());
+
+		l = tm.list("v1");
+		log.info("tm list=" + l);
+		log.info("tm list=" + l.getProject() + ";" + l.getKey());
+
+		l = tm.list("luitest123");
+		log.info("tm list=" + l);
+		log.info("tm list=" + l.getProject() + ";" + l.getKey());
+
+		Input input = new Input();
+		input.put("age", 25);
+		input.put("workclass", "Private");
+		input.put("education", "11th");
+		input.put("education_num", 7);
+		input.put("marital_status", "Never-married");
+		input.put("occupation", "Machine-op-inspct");
+		input.put("relationship", "Own-child");
+		input.put("race", "Black");
+		input.put("gender", "Male");
+		input.put("capital_gain", 0);
+		input.put("capital_loss", 0);
+		input.put("hours_per_week", 40);
+		input.put("native_country", "United-States");
+		Predict predict = tm.predict("luitest123", "census", input);
+		log.info("tm predict=" + predict);
+		log.info("tm predict=" + predict.getId());
+		log.info("tm predict=" + predict.getLastStatusMessage());
+		log.info("tm predict=" + predict.getFields());
+
 		super.service(arg0, arg1);
 	}
 
-	@Override
-	public List<GwtCalendar> getCalendars() throws IOException {
-		try {
-			com.google.api.services.calendar.Calendar client = Utils
-					.loadCalendarClient();
-			com.google.api.services.calendar.Calendar.CalendarList.List listRequest = client
-					.calendarList().list();
-			listRequest.setFields("items(id,summary)");
-			CalendarList feed = listRequest.execute();
-			ArrayList<GwtCalendar> result = new ArrayList<GwtCalendar>();
-			if (feed.getItems() != null) {
-				for (CalendarListEntry entry : feed.getItems()) {
-					result.add(
-							new GwtCalendar(entry.getId(), entry.getSummary()));
-				}
-			}
-			return result;
-		} catch (IOException e) {
-			throw Utils.wrappedIOException(e);
-		}
-	}
-
-	@Override
-	public void delete(GwtCalendar calendar) throws IOException {
-		try {
-			com.google.api.services.calendar.Calendar client = Utils
-					.loadCalendarClient();
-			client.calendars().delete(calendar.id).execute();
-		} catch (IOException e) {
-			throw Utils.wrappedIOException(e);
-		}
-	}
-
-	@Override
-	public GwtCalendar insert(GwtCalendar calendar) throws IOException {
-		try {
-			Calendar newCalendar = new Calendar().setSummary(calendar.title);
-			com.google.api.services.calendar.Calendar client = Utils
-					.loadCalendarClient();
-			Calendar responseEntry = client.calendars().insert(newCalendar)
-					.execute();
-			GwtCalendar result = new GwtCalendar();
-			result.title = responseEntry.getSummary();
-			result.id = responseEntry.getId();
-			return result;
-		} catch (IOException e) {
-			throw Utils.wrappedIOException(e);
-		}
-	}
-
-	@Override
-	public GwtCalendar update(GwtCalendar updated) throws IOException {
-		try {
-			com.google.api.services.calendar.Calendar client = Utils
-					.loadCalendarClient();
-			Calendar entry = new Calendar();
-			entry.setSummary(updated.title);
-			String id = updated.id;
-			Calendar responseEntry = client.calendars().patch(id, entry)
-					.execute();
-			return new GwtCalendar(id, responseEntry.getSummary());
-		} catch (IOException e) {
-			throw Utils.wrappedIOException(e);
-		}
-	}
 }
