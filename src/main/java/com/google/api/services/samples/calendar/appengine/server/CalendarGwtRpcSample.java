@@ -27,6 +27,8 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
@@ -62,10 +64,16 @@ public class CalendarGwtRpcSample extends HttpServlet {
 	public void service(ServletRequest arg0, ServletResponse arg1)
 			throws ServletException, IOException {
 		log.info("serve calendar");
-		check2();
 		super.service(arg0, arg1);
 	}
 	
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+		String ret = check2();
+		resp.getWriter().append(ret);
+	}
+
 	public void check1() throws IOException {
 		Prediction prediction = Utils.loadPredictionClient();
 		log.info("prediction=" + prediction);
@@ -107,7 +115,7 @@ public class CalendarGwtRpcSample extends HttpServlet {
 		log.info("tm predict=" + predict.getFields());
 	}
 
-	public void check2() throws IOException {
+	public String check2() throws IOException {
 	    HttpTransport httpTransport = null;
 		try {
 			httpTransport = GoogleNetHttpTransport.newTrustedTransport();
@@ -165,5 +173,7 @@ public class CalendarGwtRpcSample extends HttpServlet {
 
 	    String response = request.execute().parseAsString();
 	    log.info(response);
+	    
+	    return response;
 	  }
 }
