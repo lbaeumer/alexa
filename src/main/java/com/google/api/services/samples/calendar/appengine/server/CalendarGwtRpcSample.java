@@ -17,8 +17,6 @@ package com.google.api.services.samples.calendar.appengine.server;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -45,10 +43,6 @@ import com.google.api.services.discovery.Discovery;
 import com.google.api.services.discovery.model.JsonSchema;
 import com.google.api.services.discovery.model.RestDescription;
 import com.google.api.services.discovery.model.RestMethod;
-import com.google.api.services.prediction.Prediction;
-import com.google.api.services.prediction.Prediction.Trainedmodels;
-import com.google.api.services.prediction.Prediction.Trainedmodels.Predict;
-import com.google.api.services.prediction.model.Input;
 /**
  * Calendar GWT RPC service implementation.
  * 
@@ -72,47 +66,6 @@ public class CalendarGwtRpcSample extends HttpServlet {
 			throws ServletException, IOException {
 		String ret = check2();
 		resp.getWriter().append(ret);
-	}
-
-	public void check1() throws IOException {
-		Prediction prediction = Utils.loadPredictionClient();
-		log.info("prediction=" + prediction);
-
-		Trainedmodels tm = prediction.trainedmodels();
-		log.info("tm=" + tm);
-
-		Prediction.Trainedmodels.List l;
-		l = tm.list("census");
-		log.info("tm list=" + l);
-		log.info("tm list=" + l.getProject() + ";" + l.getKey());
-
-		l = tm.list("v1");
-		log.info("tm list=" + l);
-		log.info("tm list=" + l.getProject() + ";" + l.getKey());
-
-		l = tm.list("luitest123");
-		log.info("tm list=" + l);
-		log.info("tm list=" + l.getProject() + ";" + l.getKey());
-
-		Input input = new Input();
-		input.put("age", 25);
-		input.put("workclass", "Private");
-		input.put("education", "11th");
-		input.put("education_num", 7);
-		input.put("marital_status", "Never-married");
-		input.put("occupation", "Machine-op-inspct");
-		input.put("relationship", "Own-child");
-		input.put("race", "Black");
-		input.put("gender", "Male");
-		input.put("capital_gain", 0);
-		input.put("capital_loss", 0);
-		input.put("hours_per_week", 40);
-		input.put("native_country", "United-States");
-		Predict predict = tm.predict("luitest123", "census", input);
-		log.info("tm predict=" + predict);
-		log.info("tm predict=" + predict.getId());
-		log.info("tm predict=" + predict.getLastStatusMessage());
-		log.info("tm predict=" + predict.getFields());
 	}
 
 	public String check2() throws IOException {
