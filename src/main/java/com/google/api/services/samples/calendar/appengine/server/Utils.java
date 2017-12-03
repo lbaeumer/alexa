@@ -95,10 +95,12 @@ class Utils {
 		log.info("newFlow");
 		List<String> scopes = new ArrayList<String>();
 		scopes.add("https://www.googleapis.com/auth/prediction");
-		scopes.add("https://www.googleapis.com/auth/devstorage.read_only");
+		scopes.add("https://www.googleapis.com/auth/drive");
 		scopes.add("https://www.googleapis.com/auth/cloud-platform");
-		// scopes.add("https://www.googleapis.com/auth/prediction");
-		// scopes.add("https://www.googleapis.com/auth/prediction");
+		scopes.add("https://www.googleapis.com/auth/cloud-vision");
+		scopes.add("https://www.googleapis.com/auth/cloud.useraccounts");
+		scopes.add("https://ml.googleapis.com/v1/projects/luitest123/models/census/versions/v1:predict");
+		scopes.add("https://www.googleapis.com/auth/devstorage.full_control");
 
 		GoogleClientSecrets gcs = getClientCredential();
 		GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
@@ -109,6 +111,17 @@ class Utils {
 		log.info("flow=" + flow.getAccessType() + ";"
 				+ flow.getAuthorizationServerEncodedUrl());
 		return flow;
+	}
+
+	static Credential getCredential() throws IOException {
+		log.info("getCredential");
+		String userId = UserServiceFactory.getUserService().getCurrentUser()
+				.getUserId();
+		String email = UserServiceFactory.getUserService().getCurrentUser()
+				.getEmail();
+		log.info("getCredential; user=" + userId + ";" + email);
+		Credential credential = newFlow().loadCredential(userId);
+		return credential;
 	}
 
 	static Prediction loadPredictionClient() throws IOException {
