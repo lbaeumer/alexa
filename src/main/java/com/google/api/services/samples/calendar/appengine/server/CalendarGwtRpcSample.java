@@ -105,11 +105,11 @@ public class CalendarGwtRpcSample extends HttpServlet {
 		// Credential credential = Utils.getCredential();
 		GoogleCredential credential = GoogleCredential.getApplicationDefault();
 		List<String> scopes = new ArrayList<String>();
-		scopes.add("https://www.googleapis.com/auth/prediction");
-		scopes.add("https://www.googleapis.com/auth/drive");
+//		scopes.add("https://www.googleapis.com/auth/prediction");
+//		scopes.add("https://www.googleapis.com/auth/drive");
 		scopes.add("https://www.googleapis.com/auth/cloud-platform");
-		scopes.add("https://www.googleapis.com/auth/cloud-vision");
-		scopes.add("https://www.googleapis.com/auth/cloud.useraccounts");
+//		scopes.add("https://www.googleapis.com/auth/cloud-vision");
+//		scopes.add("https://www.googleapis.com/auth/cloud.useraccounts");
 		scopes.add("https://www.googleapis.com/auth/devstorage.full_control");
 		if (credential.createScopedRequired()) {
 			log.info("** adding scopes");
