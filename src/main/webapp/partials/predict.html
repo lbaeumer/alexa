@@ -1,0 +1,89 @@
+<div class="row-fluid">
+
+	<h2>Prediction</h2>
+
+	<div ng-show="progressloading">
+		<img class="center-block" src="/images/ajax-loader.gif" />
+	</div>
+
+	<p>{{response}}</p>
+	<div>
+		<form ng-submit="submit()" name="myform" novalidate>
+
+			<div class="form-group">
+				<label>Age*</label> <small><br /></small> 
+				<input class="form-control" type="text" required
+					ng-model="form.age" />
+			</div>
+			<div class="form-group">
+				<label>Workclass</label> <small><br />
+					</small> <input class="form-control" type="text"
+					ng-model="form.workclass" />
+			</div>
+
+			<div class="form-group">
+				<label>education</label> <small><br />
+					</small> <input class="form-control" type="text"
+					ng-model="form.education" />
+			</div>
+
+			<div class="form-group">
+				<label>education_num</label> <small><br />
+					</small> <input class="form-control" type="text"
+					ng-model="form.education_num" />
+			</div>
+			<div class="form-group">
+				<label>marital_status</label> <small><br />
+					</small> <input class="form-control" type="text"
+					ng-model="form.marital_status" />
+			</div>
+			<div class="form-group">
+				<label>occupation</label> <small><br />
+					</small> <input class="form-control" type="text"
+					ng-model="form.occupation" />
+			</div>
+			<div class="form-group">
+				<label>relationship</label> <small><br />
+					</small> <input class="form-control" type="text"
+					ng-model="form.relationship" />
+			</div>
+			<div class="form-group">
+				<label>race</label> <small><br />
+					</small> <input class="form-control" type="text"
+					ng-model="form.race" />
+			</div>
+			<div class="form-group">
+				<label>gender</label> <small><br />
+					</small> <input class="form-control" type="text"
+					ng-model="form.gender" />
+			</div>
+			<div class="form-group">
+				<label>capital_gain</label> <small><br />
+					</small> <input class="form-control" type="text"
+					ng-model="form.capital_gain" />
+			</div>
+			<div class="form-group">
+				<label>capital_loss</label> <small><br />
+					</small> <input class="form-control" type="text"
+					ng-model="form.capital_loss" />
+			</div>
+
+
+
+			<div class="form-group">
+				<label>hours_per_week</label> <small><br />
+					</small> <input class="form-control" type="text"
+					ng-model="form.hours_per_week" />
+			</div>
+			<div class="form-group">
+				<label>native_country</label> <small><br />
+					</small> <input class="form-control" type="text"
+					ng-model="form.native_country" />
+			</div>
+
+			<input class="btn btn-primary" type="submit" value="Send" />
+		</form>
+	</div>
+	<br/>
+	<br/>
+</div>
