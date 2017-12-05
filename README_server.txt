@@ -11,5 +11,6 @@ http://2.luitest123.appspot.com
 
 # Prep environment
 
-virtualenv cmle-quickstart
+cd ~
+#virtualenv cmle-quickstart
 source cmle-quickstart/bin/activate

@@ -1,10 +1,8 @@
 REGION=us-central1
-PROJECT_ID=$(gcloud config list project --format "value(core.project)")
-BUCKET_NAME=${PROJECT_ID}-mlengine
+BUCKET_NAME=luitest123-mlengine
 
 ## Deploy a model to support prediction
 
-MODEL_NAME=census
 gcloud ml-engine models create $MODEL_NAME --regions=$REGION
 
 OUTPUT_PATH=gs://$BUCKET_NAME/census_dist_1
@@ -24,6 +22,3 @@ gcloud ml-engine predict \
 --version v1 \
 --json-instances \
 ../test.json
-
-
-

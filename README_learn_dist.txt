@@ -1,6 +1,5 @@
 REGION=us-central1
-PROJECT_ID=$(gcloud config list project --format "value(core.project)")
-BUCKET_NAME=${PROJECT_ID}-mlengine
+BUCKET_NAME=luitest123-mlengine
 
 ## Set up your Cloud Storage bucket
 
@@ -28,7 +27,7 @@ gcloud ml-engine jobs submit training $JOB_NAME \
     --train-steps 1000 \
     --verbosity DEBUG
 
-tensorboard --logdir=$MODEL_DIR
+tensorboard --logdir=$OUTPUT_PATH
 http://localhost:6006
 
 ## Run distributed training in the cloud
@@ -50,6 +49,6 @@ gcloud ml-engine jobs submit training $JOB_NAME \
     --verbosity DEBUG  \
     --eval-steps 100
 
-tensorboard --logdir=$MODEL_DIR
+tensorboard --logdir=$OUTPUT_PATH
 http://localhost:6006
 

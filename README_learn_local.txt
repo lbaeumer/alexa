@@ -9,8 +9,8 @@ EVAL_DATA=$(pwd)/data/adult.test.csv
 
 ## Run a local trainer
 
-MODEL_DIR=output
-rm -rf $MODEL_DIR/*
+OUTPUT_PATH=output
+rm -rf $OUTPUT_PATH/*
 
 gcloud ml-engine local train \
     --module-name trainer.task \
@@ -19,16 +19,16 @@ gcloud ml-engine local train \
     --train-files $TRAIN_DATA \
     --eval-files $EVAL_DATA \
     --train-steps 1000 \
-    --job-dir $MODEL_DIR \
+    --job-dir $OUTPUT_PATH \
     --eval-steps 100
 
-tensorboard --logdir=$MODEL_DIR
+tensorboard --logdir=$OUTPUT_PATH
 http://localhost:6006
 
 ## Run a local trainer in distributed mode
 
-MODEL_DIR=output-dist
-rm -rf $MODEL_DIR/*
+OUTPUT_PATH=output-dist
+rm -rf $OUTPUT_PATH/*
 
 gcloud ml-engine local train \
     --module-name trainer.task \
@@ -38,10 +38,8 @@ gcloud ml-engine local train \
     --train-files $TRAIN_DATA \
     --eval-files $EVAL_DATA \
     --train-steps 1000 \
-    --job-dir $MODEL_DIR
+    --job-dir $OUTPUT_PATH
 
-cd ~/workspace/alexa/cloudml-samples-master/census/estimator
-
-tensorboard --logdir=$MODEL_DIR
+tensorboard --logdir=$OUTPUT_PATH
 http://localhost:6006
 
