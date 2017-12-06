@@ -12,7 +12,7 @@ TEST_JSON=gs://$BUCKET_NAME/data/test.json
 
 ## Run a single-instance trainer in the cloud
 
-JOB_NAME=census_single_1
+JOB_NAME=census_single_1_1
 OUTPUT_PATH=gs://$BUCKET_NAME/$JOB_NAME
 
 gcloud ml-engine jobs submit training $JOB_NAME \
