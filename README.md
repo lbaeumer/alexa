@@ -6,6 +6,7 @@ additional fix
 prep jt8
 
 JT-3 #comment this is a fancy comment
+closes #JT-1 this is a comment
 
 appengine-flexible-archetype
 ============================
