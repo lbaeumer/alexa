@@ -14,6 +14,7 @@ JT-1 #comment this is evil hard to fix
 ## setting time
 
 JT-5 #time 1w 2h this quite difficult
+JT-5 #time 1w 2d 4h 30m Total work logged
 
 
 appengine-flexible-archetype
