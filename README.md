@@ -11,10 +11,14 @@ this work:
 
 JT-1 #comment this is evil hard to fix
 
-## setting time
+## setting time - does not work
 
 JT-5 #time 1w 2h this quite difficult
 JT-5 #time 1w 2d 4h 30m Total work logged
+
+## closing 
+
+JT-5 #close 1w 2d 4h 30m Total work logged
 
 
 appengine-flexible-archetype
