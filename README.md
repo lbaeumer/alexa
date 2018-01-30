@@ -16,6 +16,8 @@ JT-5 #close 1w 2d 4h 30m Total work logged
 closes #JT-5 check if the issue will be closed
 closes #JT-1, #JT-2 check if the issue will be closed
 
+#JT-5 #resolve check if the issue will be closed
+
 
 appengine-flexible-archetype
 ============================
