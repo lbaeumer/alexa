@@ -3,6 +3,8 @@ jt1
 jt1
 additional fix
 
+prep jt8
+
 appengine-flexible-archetype
 ============================
 
