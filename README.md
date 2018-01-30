@@ -60,3 +60,4 @@ An easy way to keep your projects up to date is to use the maven [Versions plugi
 Our usual process is to test, update the versions, then test again before committing back.
 
 [plugin]: http://www.mojohaus.org/versions-maven-plugin/
+
