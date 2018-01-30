@@ -19,6 +19,7 @@ closes #JT-1, #JT-2 check if the issue will be closed
 
 #JT-5 #resolve check if the issue will be closed
 JT-1 JT-2 JT-3 #resolve
+resolve #JT-1 #JT-2 #JT-3 #JT-4
 
 appengine-flexible-archetype
 ============================
