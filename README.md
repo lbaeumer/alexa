@@ -11,6 +11,11 @@ this work:
 
 JT-1 #comment this is evil hard to fix
 
+## setting time
+
+JT-5 #time 1w 2h this quite difficult
+
+
 appengine-flexible-archetype
 ============================
 
