@@ -1,12 +1,3 @@
-just a test2
-jt1
-jt1
-additional fix
-
-prep jt8
-
-this work:
-----------------
 ## setting a comment
 
 JT-1 #comment this is evil hard to fix
@@ -16,9 +7,13 @@ JT-1 #comment this is evil hard to fix
 JT-5 #time 1w 2h this quite difficult
 JT-5 #time 1w 2d 4h 30m Total work logged
 
-## closing 
+## closing - does not work
 
 JT-5 #close 1w 2d 4h 30m Total work logged
+
+## closing - does not work
+
+closes #JT-5 check if the issue will be closed
 
 
 appengine-flexible-archetype
