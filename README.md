@@ -34,7 +34,8 @@ JT-17 #selected-for-development this bug is quite new8 #commment and a new comme
 
 JT-17 #in this bug is quite new9
 
-JT-17 #commment this evil bug is closed now #done
+JT-17 #comment this evil bug is reopened now #in
+
 
 appengine-flexible-archetype
 ============================
