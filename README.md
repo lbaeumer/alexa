@@ -38,6 +38,8 @@ JT-17 #comment this evil bug is reopened now #in
 
 JT-17 #time 1w 2d 4h 30m Total work logged
 
+JT-18 #done #comment required for JT-17
+
 appengine-flexible-archetype
 ============================
 
