@@ -23,19 +23,13 @@ JT-5 #close 1w 2d 4h 30m Total work logged
 
 ## closing - does not work
 
-closes #JT-5 check if the issue will be closed
-closes #JT-1, #JT-2 check if the issue will be closed
-
-#JT-5 #resolve check if the issue will be closed
-#close JT-1 JT-10 JT-8 this bug
-#close JT-17 this bug
-#closes JT-17 this bug
-
 JT-17 #close this bug is quite new5 - does not work
 
 JT-17 #done this bug is quite new6
 
 JT-17 #in-progress this bug is quite new7
+
+JT-17 #selected-for-development this bug is quite new8 #commment and a new comment
 
 appengine-flexible-archetype
 ============================
