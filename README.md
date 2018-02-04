@@ -35,6 +35,7 @@ JT-17 #close this bug is quite new5 - does not work
 
 JT-17 #done this bug is quite new6
 
+JT-17 #in-progress this bug is quite new7
 
 appengine-flexible-archetype
 ============================
