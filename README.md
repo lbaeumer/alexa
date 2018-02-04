@@ -29,9 +29,12 @@ JT-17 #done this bug is quite new6
 
 JT-17 #in-progress this bug is quite new7
 
-JT-17 #selected-for-development this bug is quite new8 #commment and a new comment
+JT-17 #selected-for-development this bug is quite new8 #commment and a new comment       - does not work
+
 
 JT-17 #in this bug is quite new9
+
+JT-17 #commment this evil bug is closed now #done
 
 appengine-flexible-archetype
 ============================
