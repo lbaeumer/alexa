@@ -8,6 +8,8 @@ JT-8 #comment why does this not work?
 
 JT-17 #comment this bug is quite new2     - this works
 
+JT-17 #comment this bug is quite new4     - this works
+
 ## setting time - does not work
 
 JT-5 #time 1w 2h this quite difficult
