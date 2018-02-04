@@ -6,6 +6,8 @@ JT-8 #comment why does this not work?
 
 #comment JT-17 this bug is quite new      - this does not work
 
+#comment JT-17 this bug is quite new3      - this does not work
+
 JT-17 #comment this bug is quite new2     - this works
 
 JT-17 #comment this bug is quite new4     - this works
@@ -29,6 +31,7 @@ closes #JT-1, #JT-2 check if the issue will be closed
 #close JT-17 this bug
 #closes JT-17 this bug
 
+JT-17 #close this bug is quite new5
 
 appengine-flexible-archetype
 ============================
