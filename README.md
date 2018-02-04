@@ -31,7 +31,10 @@ closes #JT-1, #JT-2 check if the issue will be closed
 #close JT-17 this bug
 #closes JT-17 this bug
 
-JT-17 #close this bug is quite new5
+JT-17 #close this bug is quite new5 - does not work
+
+JT-17 #done this bug is quite new6
+
 
 appengine-flexible-archetype
 ============================
