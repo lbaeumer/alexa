@@ -4,9 +4,9 @@ JT-1 #comment this is evil hard to fix
 
 JT-8 #comment why does this not work?
 
-#comment JT-17 this bug is quite new
+#comment JT-17 this bug is quite new      - this does not work
 
-JT-17 #comment this bug is quite new2
+JT-17 #comment this bug is quite new2     - this works
 
 ## setting time - does not work
 
