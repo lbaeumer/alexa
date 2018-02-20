@@ -13,9 +13,13 @@ import org.apache.log4j.Logger;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import de.alexa.ws.custom.DevopsIntent;
+import de.alexa.ws.custom.KollegenIntent;
 import de.alexa.ws.custom.PupsieIntent;
-import de.alexa.ws.news.NewsIntent;
+import de.alexa.ws.custom.beer.BierIntent;
+import de.alexa.ws.custom.certificate.HSBCZertifikateIntent;
+import de.alexa.ws.custom.devops.DevopsIntent;
+import de.alexa.ws.news.DailyTradingNewsIntent;
+import de.alexa.ws.news.HSBCNewsIntent;
 
 public class DispatcherEndpoint extends HttpServlet {
 
@@ -34,13 +38,17 @@ public class DispatcherEndpoint extends HttpServlet {
 		String uri = req.getRequestURI();
 		Object json = null;
 
-		if (uri.matches("^/rs/alexa/news$")) {
+		if (uri.matches("^/rs/alexa/news/dailytrading$")) {
 
-			AlexaNewsIntent i = new NewsIntent();
+			AlexaNewsIntent i = new DailyTradingNewsIntent();
+			json = i.handleNewsIntent();
+		} else if (uri.matches("^/rs/alexa/news/top$")) {
+
+			AlexaNewsIntent i = new HSBCNewsIntent();
 			json = i.handleNewsIntent();
 		}
 
-		resp.setContentType("application/json");
+		resp.setContentType("application/json; charset=utf-8");
 		resp.getWriter().write(gson.toJson(json));
 	}
 
@@ -49,11 +57,9 @@ public class DispatcherEndpoint extends HttpServlet {
 			throws ServletException, IOException {
 
 		String uri = req.getRequestURI();
-		Object json = null;
-
 		log.info("uri=" + uri);
-		if (uri.matches("^/rs/alexa/devops$")) {
 
+		if (uri.matches("^/rs/alexa/[a-z]+$")) {
 			StringBuffer strb = new StringBuffer();
 			BufferedReader reader = new BufferedReader(req.getReader());
 			String line;
@@ -65,35 +71,44 @@ public class DispatcherEndpoint extends HttpServlet {
 			AlexaCustomRequest request = gson.fromJson(strb.toString(),
 					AlexaCustomRequest.class);
 
-			AlexaCustomIntent intent = null;
+			AlexaCustomResponse response = handleAlexaRequest(uri, request);
 
-			if (uri.matches("^/rs/alexa/pupsie$")) {
-				intent = new PupsieIntent();
-			}
-			if (uri.matches("^/rs/alexa/devops$")) {
-				intent = new DevopsIntent();
-			}
+			String res = gson.toJson(response);
+			log.info("response=" + res);
 
-			if ("LaunchRequest".equals(request.request.type)) {
-				json = intent.handleLaunchIntent(request);
-			} else if ("IntentRequest".equals(request.request.type)) {
-				json = intent.handleIntent(request);
-			} else if ("SessionEndedRequest".equals(request.request.type)) {
-				//
-				json = new AlexaCustomResponse("hoppla, session ended");
-				log.warn("session ended");
-			} else {
-				log.warn("unknown type" + request.request.type);
-			}
-
-			log.info("return" + gson.toJson(json));
-
-			resp.setContentType("application/json");
-			resp.getWriter().write(gson.toJson(json));
+			resp.setContentType("application/json; charset=utf-8");
+			resp.getWriter().write(res);
 		}
-
-		resp.setContentType("application/json");
-		resp.getWriter().write(gson.toJson(json));
 	}
 
+	private AlexaCustomResponse handleAlexaRequest(String uri, AlexaCustomRequest request) {
+
+		AlexaCustomIntent intent = null;
+		if (uri.matches("^/rs/alexa/bier$")) {
+			intent = new BierIntent();
+		} else if (uri.matches("^/rs/alexa/pupsie$")) {
+			intent = new PupsieIntent();
+		} else if (uri.matches("^/rs/alexa/hsbckollegen$")) {
+			intent = new KollegenIntent();
+		} else if (uri.matches("^/rs/alexa/hsbczertifikate$")) {
+			intent = HSBCZertifikateIntent.getInstance();
+		} else if (uri.matches("^/rs/alexa/devops$")) {
+			intent = new DevopsIntent();
+		}
+
+		AlexaCustomResponse response = null;
+		if ("LaunchRequest".equals(request.request.type)) {
+			response = intent.handleLaunchIntent(request);
+		} else if ("IntentRequest".equals(request.request.type)) {
+			response = intent.handleIntent(request);
+		} else if ("SessionEndedRequest".equals(request.request.type)) {
+			//
+			response = new AlexaCustomResponse("hoppla, session ended");
+			log.warn("session ended");
+		} else {
+			log.warn("unknown type" + request.request.type);
+		}
+
+		return response;
+	}
 }

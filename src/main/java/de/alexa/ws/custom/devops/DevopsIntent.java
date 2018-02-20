@@ -1,4 +1,4 @@
-package de.alexa.ws.custom;
+package de.alexa.ws.custom.devops;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -8,9 +8,6 @@ import org.apache.log4j.Logger;
 import de.alexa.ws.AlexaCustomIntent;
 import de.alexa.ws.AlexaCustomRequest;
 import de.alexa.ws.AlexaCustomResponse;
-import de.alexa.ws.custom.devops.AllJobsIntent;
-import de.alexa.ws.custom.devops.BuildStatusIntent;
-import de.alexa.ws.custom.devops.ExecuteJobIntent;
 import de.alexa.ws.custom.util.JenkinsUtil;
 
 public class DevopsIntent implements AlexaCustomIntent {
