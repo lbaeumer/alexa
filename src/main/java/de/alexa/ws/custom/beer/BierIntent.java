@@ -1,10 +1,15 @@
 package de.alexa.ws.custom.beer;
 
+import org.apache.log4j.Logger;
+
 import de.alexa.ws.AlexaCustomIntent;
 import de.alexa.ws.AlexaCustomRequest;
 import de.alexa.ws.AlexaCustomResponse;
 
 public class BierIntent implements AlexaCustomIntent {
+
+	private static final Logger log = Logger
+			.getLogger(BierIntent.class.getName());
 
 	@Override
 	public AlexaCustomResponse handleIntent(AlexaCustomRequest request) {
@@ -20,7 +25,13 @@ public class BierIntent implements AlexaCustomIntent {
 	private AlexaCustomResponse handleBierIntent(AlexaCustomRequest request) {
 		AlexaCustomResponse json;
 		try {
-			String name = request.request.intent.slots.get("Name").get("value").toString();
+			String name = "Mister x";
+			if (request.request.intent.slots.get("Name") != null
+					&& request.request.intent.slots.get("Name")
+							.get("value") != null) {
+				name = request.request.intent.slots.get("Name").get("value")
+						.toString();
+			}
 
 			String ret = "Sorry " + name + ", ich kenne dich nicht";
 			if (name.equalsIgnoreCase("lui") || name.equalsIgnoreCase("louis")) {
@@ -45,6 +56,7 @@ public class BierIntent implements AlexaCustomIntent {
 			json = new AlexaCustomResponse(name, ret);
 
 		} catch (NullPointerException e) {
+			log.warn("failed", e);
 			json = new AlexaCustomResponse("Ich bin doof");
 		}
 

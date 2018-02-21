@@ -12,11 +12,16 @@ public class KollegenIntent implements AlexaCustomIntent {
 	public AlexaCustomResponse handleIntent(AlexaCustomRequest request) {
 		AlexaCustomResponse json;
 		try {
-			String name = request.request.intent.slots.get("Name").get("value").toString();
+			String name = "Mister x";
+			if (request.request.intent.slots.get("Name") != null
+					&& request.request.intent.slots.get("Name")
+							.get("value") != null) {
+				name = request.request.intent.slots.get("Name").get("value")
+						.toString();
+			}
 
 			String ret = "Sorry " + name + ", ich kenne dich nicht";
-			if (name.equalsIgnoreCase("lui")
-					|| name.equalsIgnoreCase("juicy")
+			if (name.equalsIgnoreCase("lui") || name.equalsIgnoreCase("juicy")
 					|| name.equalsIgnoreCase("louis")) {
 				String[] r = {
 						"Lui, du bist ein leuchtender Stern am Himmel der Eiti Geeks. Deine Genialität kennt keine Grenzen.",
@@ -36,8 +41,7 @@ public class KollegenIntent implements AlexaCustomIntent {
 				ret = "Claus, du bist eine schwer gestörte Nuttä, die sich am liebsten in den Kölner Schwulenclubs herum treibt. Poppst du eigentlich noch den Reza?";
 			} else if (name.equalsIgnoreCase("Olli")) {
 				ret = "Olli, du bist nur nicht der größte Schwachkopf der alten Software Architektur, sondern du stichst auch in dem neuen Laden durch Stumpfsinn hervor.";
-			} else if (name.startsWith("fu")
-					|| name.equalsIgnoreCase("Four")
+			} else if (name.startsWith("fu") || name.equalsIgnoreCase("Four")
 					|| name.equalsIgnoreCase("foo")) {
 				String[] r = {
 						"Fuh, du bist ein verstrahlter Holzkopf mit Pimmälpiercing.",

@@ -20,6 +20,7 @@ import de.alexa.ws.custom.certificate.HSBCZertifikateIntent;
 import de.alexa.ws.custom.devops.DevopsIntent;
 import de.alexa.ws.news.DailyTradingNewsIntent;
 import de.alexa.ws.news.HSBCNewsIntent;
+import de.alexa.ws.news.NewsIntent;
 
 public class DispatcherEndpoint extends HttpServlet {
 
@@ -45,6 +46,10 @@ public class DispatcherEndpoint extends HttpServlet {
 		} else if (uri.matches("^/rs/alexa/news/top$")) {
 
 			AlexaNewsIntent i = new HSBCNewsIntent();
+			json = i.handleNewsIntent();
+		} else if (uri.matches("^/rs/alexa/news/lui$")) {
+
+			AlexaNewsIntent i = new NewsIntent();
 			json = i.handleNewsIntent();
 		}
 

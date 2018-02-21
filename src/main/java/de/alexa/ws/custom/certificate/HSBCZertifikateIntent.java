@@ -370,8 +370,8 @@ public class HSBCZertifikateIntent implements AlexaCustomIntent {
 
 				Map<String, String> image = new HashMap<>();
 				res.response.card.put("image", image);
-				image.put("largeImageUrl", "https://luitest123.appspot.com/images/dax2.png");
-				//image.put("smallImageUrl", "https://luitest123.appspot.com/images/daxs.png");
+				image.put("largeImageUrl", "https://alexa-195817.appspot.com/images/dax2.png");
+				//image.put("smallImageUrl", "https://alexa-195817.appspot.com/images/daxs.png");
 			} else if (cnt.equalsIgnoreCase("tec dax")) {
 				res =  new AlexaCustomResponse("Der " + cnt + " steht aktuell bei 2231 Punkten.");
 				res.response.card = new HashMap<>();
@@ -381,8 +381,8 @@ public class HSBCZertifikateIntent implements AlexaCustomIntent {
 
 				Map<String, String> image = new HashMap<>();
 				res.response.card.put("image", image);
-				image.put("largeImageUrl", "https://luitest123.appspot.com/images/mdax.png");
-				image.put("smallImageUrl", "https://luitest123.appspot.com/images/mdaxs.png");
+				image.put("largeImageUrl", "https://alexa-195817.appspot.com/images/mdax.png");
+				image.put("smallImageUrl", "https://alexa-195817.appspot.com/images/mdaxs.png");
 			} else if (cnt.equalsIgnoreCase("s dax")) {
 				res =  new AlexaCustomResponse("Der " + cnt + " steht aktuell bei 11022 Punkten.");
 				res.response.card = new HashMap<>();
@@ -392,8 +392,8 @@ public class HSBCZertifikateIntent implements AlexaCustomIntent {
 
 				Map<String, String> image = new HashMap<>();
 				res.response.card.put("image", image);
-				image.put("largeImageUrl", "https://luitest123.appspot.com/images/mdax.png");
-				image.put("smallImageUrl", "https://luitest123.appspot.com/images/mdaxs.png");
+				image.put("largeImageUrl", "https://alexa-195817.appspot.com/images/mdax.png");
+				image.put("smallImageUrl", "https://alexa-195817.appspot.com/images/mdaxs.png");
 			} else if (cnt.equalsIgnoreCase("m dax")) {
 				res =  new AlexaCustomResponse("Der " + cnt + " steht aktuell bei 25102 Punkten.");
 				res.response.card = new HashMap<>();
@@ -403,8 +403,8 @@ public class HSBCZertifikateIntent implements AlexaCustomIntent {
 
 				Map<String, String> image = new HashMap<>();
 				res.response.card.put("image", image);
-				image.put("largeImageUrl", "https://luitest123.appspot.com/images/mdax.png");
-				image.put("smallImageUrl", "https://luitest123.appspot.com/images/mdaxs.png");
+				image.put("largeImageUrl", "https://alexa-195817.appspot.com/images/mdax.png");
+				image.put("smallImageUrl", "https://alexa-195817.appspot.com/images/mdaxs.png");
 			} else {
 
 				res =  new AlexaCustomResponse("Sorry, ich kenne "+ cnt + " nicht.");
